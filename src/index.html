@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <script src="js/config.js"></script>
+    <script src="js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="js/chart1.js"></script>
+    <script src="js/chart2.js"></script>
+    <script src="js/chart3.js"></script>
+    <script src="js/chart4.js"></script>
+    <script src="js/chart5.js"></script>
+    <script src="js/Outils.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="assets/demo/chart-bar-1.js"></script>
+    <script src="assets/demo/chart-line-2.js"></script>
+    <script src="assets/demo/chart-bar-3.js"></script>
+    <script src="assets/demo/chart-pie-4.js"></script>
+    <script src="assets/demo/chart-bar-5.js"></script>
+    <script src="assets/demo/chart-pie-6.js"></script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Charts - SB Admin</title>
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="js/exchange_rate.js"></script>
+</head>
+
+<body class="sb-nav-fixed">
+   
+            <main>
+                <div class="Chart">
+                    <h1 class="mt-4">Diagrammes associés aux données JSON</h1>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="continent" class="form-label">Continent (Séléctionnez d'abord Amérique du nord pour rafraichir) :</label>
+                                <select id="continent" class="form-select" onchange="ChangerPays(this.value)">
+                                    <option value="Europe">Europe</option>
+                                    <option value="Amérique du Nord">Amérique du Nord</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="country" class="form-label">Sélectionnez le pays :</label>
+                                <select id="country" class="form-select" onchange="updateCharts()"></select>
+                            </div>
+                            
+                        </div>
+                    </div>                    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-area me-1"></i>
+                                    Revenu moyen d'un professionnel par années d'expériences.
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="histo1" width="100%" height="85"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-bar me-1"></i>
+                                    Revenu moyen d'un professionnel en fonction de son niveau d'études.
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="ligne1" width="100%" height="80"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-pie me-1"></i>
+                                    Revenu moyen d'un professionnel en fonction des plateformes de Cloud utilisés.
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="experienceSelect">Tranche d'années d'expérience :</label>
+                                        <select class="form-control" id="experienceSelect" onchange="updateCharts()">
+                                            <option value="0-5">0-5 ans</option>
+                                            <option value="5-10">5-10 ans</option>
+                                            <option value="10-20">10-20 ans</option>
+                                            <option value="20+">Plus de 20 ans</option>
+                                        </select>
+                                    </div>
+                                    <canvas id="barre1" width="100%" height="68"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-pie me-1"></i>
+                                    Revenu moyen d'un professionnel en fonction des frameworks de développement web et des tranches d'expérience.
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="barre2" width="100%" height="80"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-line me-1"></i>
+                                    Top 5 des systèmes d'exploitation utilisés par les professionnels en fonction du métier et du continent
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="devTypeSelect">Sélectionnez le métier :</label>
+                                        <select class="form-control" id="devTypeSelect" onchange="updateCharts()">
+                                            <option value="All">Tous les métiers</option>
+                                            <option value="Developer, front-end">Développeur Front-end</option>
+                                            <option value="Developer, back-end">Développeur Back-end</option>
+                                            <option value="Developer, full-stack">Développeur Full-stack</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="topCountSelect">Nombre de systèmes d'exploitation à afficher :</label>
+                                        <select class="form-control" id="topCountSelect" onchange="updateCharts()">
+                                            <option value="5">Top 5</option>
+                                            <option value="6">Top 6</option>
+                                            <option value="7">Top 7</option>
+                                            <option value="8">Top 8</option>
+                                        </select>
+                                    </div>
+                                    <canvas id="bar3" width="100%" height="50"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-pie me-1"></i>
+                                    Top des outils de communication utilisés par les professionnels
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="pie2" width="100%" height="400"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            
+        </div>
+    </div>
+</body>
+
+</html>
